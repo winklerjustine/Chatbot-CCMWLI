@@ -2,6 +2,8 @@ import sys
 import collections
 import random
 import os
+from textblob import TextBlob
+
 
 nonword = "\n"
 
@@ -30,7 +32,6 @@ class Markov():
             self.poem.append(word)
             self.seen.append(word)
             poem = ' '.join(self.poem)
-        print(poem)
         return poem
 
     def walk_directory(self, root_dir):
@@ -44,6 +45,8 @@ class Markov():
 #m.walk_directory('./shakespeare/love')
 #m.generate_output(max_words=100)
 
-
+blob = TextBlob('Terrible')
+print(blob.sentiment[1])
+print(blob.sentiment[0])
 
 

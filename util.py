@@ -78,7 +78,6 @@ def determine_text_type(message, keystrings):
 
     for keystring in keystrings:
         s = SequenceMatcher(None, message, keystring)
-        print(keystring + " similarity: " + str(s.ratio()))
         similarities.append(s.ratio())
 
     return max(similarities)

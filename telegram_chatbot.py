@@ -3,7 +3,7 @@ import requests
 import time
 import urllib
 #import markov
-
+from textblob import TextBlob
 
 import chatbot_config
 from util import all_keystrings, determine_text_type, calc_part_of_day, response_howre_you, generate_poem, bring_to_poem_style
@@ -11,6 +11,7 @@ from util import all_keystrings, determine_text_type, calc_part_of_day, response
 
 TOKEN = chatbot_config.token()
 URL = "https://api.telegram.org/bot{}/".format(TOKEN)
+sentiment_analysis = False
 
 def get_url(url):
     response = requests.get(url)
@@ -61,6 +62,7 @@ def send_photo(chat_id):
     url = URL + "sendMessage?photo={}&chat_id={}".format(open('meme.jpg', 'rb'), chat_id)
     get_image_url(url)
 
+
 def process_text(update):
     text = update['message']['text']
     chat = update['message']['chat']['id']
@@ -100,6 +102,8 @@ def process_text(update):
             send_message(right_style, chat)
             time.sleep(3)
             send_message("May I ask thee, my friend. Did you enjoyeth the poem?", chat)
+            global sentiment_analysis
+            sentiment_analysis = True
 
         elif max_similarity_index == 5:
             poem = generate_poem("nature")
@@ -110,17 +114,21 @@ def process_text(update):
             send_message(right_style, chat)
             time.sleep(3)
             send_message("May I ask thee, my friend. Did you enjoyeth the poem?", chat)
+            global sentiment_analysis
+            sentiment_analysis = True
 
         elif max_similarity_index == 6:
             poem = generate_poem("mythology")
             string_message = ''.join(poem)
             right_style = bring_to_poem_style(string_message)
-            send_message("Greek gods, the most wondrous fairytale creatures... Let thy be amused about this poem on mythology")
+            send_message("Greek gods, the most wondrous fairytale creatures... Let thy be amused about this poem on mythology", chat)
             time.sleep(3)
             send_message(right_style, chat)
             time.sleep(3)
             send_message("May I ask thee, my friend. Did you enjoyeth the poem?")
-            #mss een boolean 'start_sentiment_analysis' aanmaken, zodat hij
+            global sentiment_analysis
+            sentiment_analysis = True
+
 
 
         # als heel kort berichtje gestuurd wordt (en dat berichtje ook niet echt op 'hi' ofzo lijkt) gaat Shakespeare van onderwerp veranderen
@@ -136,9 +144,30 @@ def process_sticker(update):
     send_photo(chat)
     send_message("That's a nice sticker", chat)
 
+def process_sentiment(update):
+    text = update['message']['text']
+    chat = update['message']['chat']['id']
+
+    blob = TextBlob(text)
+    subjectivity = blob.sentiment[1]
+    polarity = blob.sentiment[0]
+
+
+    if polarity < -0.2:
+        send_message("Alack, I tried so hard to maketh a sonnet worthy of thee. Mea culpa thee did not liketh it. Maybe I "
+                     "can writeth the a new poem? Does thee wanteth to hear about love, nature or mythology?", chat)
+    elif polarity > -0.2 and polarity < 0.2:
+        send_message("Ah suspicion always haunts the guilty mind, I am not sure whether it is true what thy sayest about my"
+                     "poem. Maybe I can writeth thee a new poem? Does thee wanteth to hear about love, nature or mythology?", chat)
+    else:
+        send_message("O Lord that lends me life, Lend me a heart replete with thankfulness! I am glad thou likest the sonnet. Does thee wanteth to hear another one about love, nature or mythology?", chat)
+    global sentiment_analysis
+    sentiment_analysis = False
+
+
+
 
 def main():
-    #bring_to_poem_style('Why with confusion of May, And would be new ambition bred, Who leaves unswayed the eyes of mine ears with store; Buy terms divine in this, and upon my discourse as she is he died and takst, Mongst our mourners shalt thou hast done: Roses have years told. Farewell! thou givst and death I that the sweet hue, Could make those. Yet this huge stage presenteth nought but not be forgot, If snow be admired be. Beshrew that she is Silvia? what is my five senses can I in our faults by succession thine. This carol they be strown. Not')
     #chatbotconfig.init_nltk()
     last_update_id = None
     while True:
@@ -149,8 +178,10 @@ def main():
             #echo_all(updates)
             for update in updates['result']:
                 print(update)
-                if 'text' in update['message']:
-                    print("First if!")
+                print(sentiment_analysis)
+                if 'text' in update['message'] and sentiment_analysis:
+                    process_sentiment(update)
+                elif 'text' in update['message']:
                     print(update)
                     process_text(update)
                 elif 'sticker' in update['message']:
@@ -167,7 +198,5 @@ if __name__ == '__main__':
 '''
 Ideas:
 - determine text type verbeteren!! (hij is nu nogal dom)
-- als de user een soort onderwerp voorstelt een gedicht erover maken (nature/love/mythology)
 - mss als Shakespeare het onderwerp niet herkent een random ander gedicht geven
-- omdat er nog een KI-component toegevoegd moest worden: mss sentiment analyse op reactie van user, en aan de 
-hand daarvan beoordelen of de user het gedicht goed/slecht vond (en daarop een reactie leveren)'''
+'''
