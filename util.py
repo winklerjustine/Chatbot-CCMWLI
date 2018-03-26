@@ -2,7 +2,9 @@ from difflib import SequenceMatcher
 import datetime
 import markov
 import os
-from nltk.tokenize import word_tokenize
+import nltk
+from word_to_vec import calc_similarity
+from nltk.tokenize import word_tokenize, RegexpTokenizer
 
 morning_message = 'Full many a glorious morning have I seen, \n ' \
                   'but never this happy have I been,  \n' \
@@ -18,10 +20,10 @@ night_message = 'Even in the darkest night \n' \
                 'Soon I shall be blessed with pleasant dreams \n' \
                 'But first I will chat with you, or so it seems'
 
-greeting_keystrings = ['hello', 'hey', 'hi', 'hallo', 'hoi', 'greetings', 'good day', 'morning', 'afternoon', 'evening']
-howreyou_keystrings = ['how are you', 'it going', 'what\'s up', 'sup']
-help_keystrings = ['help', '']
-poem_keystrings = ['poem', 'shakespeare', 'write']
+greeting_keystrings = ['hello', 'hey', 'hi', 'hallo', 'hoi', 'greetings', 'day', 'morning', 'afternoon', 'evening']
+howreyou_keystrings = ['how', 'doing', 'going', 'what', 'up', 'sup']
+help_keystrings = ['help']
+poem_keystrings = ['poem', 'writer', 'write']
 love_keystrings = ['love', 'heart']
 nature_keystrings = ['nature', 'tree', 'flower']
 mythology_keystrings = ['mythology']
@@ -73,12 +75,23 @@ def bring_to_poem_style(poem):
     return poem_right_style
 
 
-def determine_text_type(message, keystrings):
-    similarities = []
+def determine_text_type(message):
+    sim = (0, 0)
+    tokenizer = RegexpTokenizer(r'\w+')
+    message_list = tokenizer.tokenize(message.lower())
+    for idx, keystring in enumerate(all_keystrings):
+        new_sim = calc_similarity(keystring, message_list)
+        if new_sim > sim[0]:
+            sim = (new_sim, idx)
+        print(" similarity: " + str(sim[0]) + " " + str(sim[1]))
 
+
+    return sim
+'''
     for keystring in keystrings:
         s = SequenceMatcher(None, message, keystring)
         similarities.append(s.ratio())
 
     return max(similarities)
-
+>>>>>>> 4115e2119a8a46e83a7c54cab8976405e6fac119
+'''

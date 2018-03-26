@@ -11,6 +11,7 @@ from util import all_keystrings, determine_text_type, calc_part_of_day, response
 
 TOKEN = chatbot_config.token()
 URL = "https://api.telegram.org/bot{}/".format(TOKEN)
+
 sentiment_analysis = False
 
 def get_url(url):
@@ -69,10 +70,11 @@ def process_text(update):
 
     first_name = update['message']['from']['first_name']
 
-    text_type_similarities = [determine_text_type(text, keystrings) for keystrings in all_keystrings]
+    similarity = determine_text_type(text)
 
-    max_similarity = max(text_type_similarities)
-    max_similarity_index = text_type_similarities.index(max(text_type_similarities))
+    max_similarity = similarity[0]
+    print("max")
+    max_similarity_index = similarity[1]
 
 
     if max_similarity > 0.3:
@@ -125,10 +127,11 @@ def process_text(update):
             time.sleep(3)
             send_message(right_style, chat)
             time.sleep(3)
+            send_message("May I ask thee, my friend. Did you enjoyeth the poem?", chat)
+            #mss een boolean 'start_sentiment_analysis' aanmaken, zodat hij
             send_message("May I ask thee, my friend. Did you enjoyeth the poem?")
             global sentiment_analysis
             sentiment_analysis = True
-
 
 
         # als heel kort berichtje gestuurd wordt (en dat berichtje ook niet echt op 'hi' ofzo lijkt) gaat Shakespeare van onderwerp veranderen
