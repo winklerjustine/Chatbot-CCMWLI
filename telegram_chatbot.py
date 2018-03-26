@@ -3,7 +3,9 @@ import requests
 import time
 import urllib
 #import markov
+import telepot
 from textblob import TextBlob
+import telegram_send
 
 import chatbot_config
 from util import all_keystrings, determine_text_type, calc_part_of_day, response_howre_you, generate_poem, bring_to_poem_style
@@ -11,6 +13,7 @@ from util import all_keystrings, determine_text_type, calc_part_of_day, response
 
 TOKEN = chatbot_config.token()
 URL = "https://api.telegram.org/bot{}/".format(TOKEN)
+
 sentiment_analysis = False
 
 '''
@@ -58,14 +61,17 @@ def get_last_chat_id_and_text(updates):
 
 
 def send_message(text, chat_id):
-    text = urllib.parse.quote_plus(text) # urllib.parse.quote_plus(text) # (python3)
+    text = urllib.parse.quote_plus(text) # (python3)
     url = URL + "sendMessage?text={}&chat_id={}".format(text, chat_id)
     get_url(url)
 
 # Still in progress, can be ignored
 def send_photo(chat_id):
-    url = URL + "sendMessage?photo={}&chat_id={}".format(open('meme.jpg', 'rb'), chat_id)
-    get_image_url(url)
+    tb = telepot.Bot(TOKEN)
+    img = open('meme.jpg', 'rb')
+    tb.sendPhoto(chat_id, img)
+    img.close()
+
 
 '''
 This function takes an JSON update as an argument and derives the text and the chat_id from this json-update. 
@@ -78,11 +84,11 @@ def process_text(update):
 
     first_name = update['message']['from']['first_name']
 
+    #similarity = determine_text_type(text) #when using glove
     text_type_similarities = [determine_text_type(text, keystrings) for keystrings in all_keystrings]
-
     max_similarity = max(text_type_similarities)
     max_similarity_index = text_type_similarities.index(max(text_type_similarities))
-
+    global sentiment_analysis
 
     if max_similarity > 0.3:
         #The send message was a greeting
@@ -118,7 +124,6 @@ def process_text(update):
             send_message("May I ask thee, my friend. Did you enjoyeth the poem?", chat)
             # After this message the bot has to run a sentiment analysis on the user's input. Therefore the variable
             # sentiment_analysis is set to true
-            global sentiment_analysis
             sentiment_analysis = True
 
         # the chat-partner requested a poem about nature
@@ -133,7 +138,6 @@ def process_text(update):
             send_message("May I ask thee, my friend. Did you enjoyeth the poem?", chat)
             # After this message the bot has to run a sentiment analysis on the user's input. Therefore the variable
             # sentiment_analysis is set to true
-            global sentiment_analysis
             sentiment_analysis = True
 
         # the chat partner requested a poem about mythology
@@ -145,10 +149,11 @@ def process_text(update):
             time.sleep(3)
             send_message(right_style, chat)
             time.sleep(3)
+            send_message("May I ask thee, my friend. Did you enjoyeth the poem?", chat)
+            #mss een boolean 'start_sentiment_analysis' aanmaken, zodat hij
             send_message("May I ask thee, my friend. Did you enjoyeth the poem?")
             # After this message the bot has to run a sentiment analysis on the user's input. Therefore the variable
             # sentiment_analysis is set to true
-            global sentiment_analysis
             sentiment_analysis = True
 
         # als heel kort berichtje gestuurd wordt (en dat berichtje ook niet echt op 'hi' ofzo lijkt) gaat Shakespeare van onderwerp veranderen

@@ -3,7 +3,7 @@ import datetime
 import markov
 import os
 import nltk
-from word_to_vec import calc_similarity
+#from word_to_vec import calc_similarity
 from nltk.tokenize import word_tokenize, RegexpTokenizer
 
 morning_message = 'Full many a glorious morning have I seen, \n ' \
@@ -21,7 +21,7 @@ night_message = 'Even in the darkest night \n' \
                 'But first I will chat with you, or so it seems'
 
 greeting_keystrings = ['hello', 'hey', 'hi', 'hallo', 'hoi', 'greetings', 'day', 'morning', 'afternoon', 'evening']
-howreyou_keystrings = ['how', 'doing', 'going', 'what', 'up', 'sup']
+howreyou_keystrings = ['how', 'how are you doing', 'how is it going', 'what', 'up', 'sup']
 help_keystrings = ['help']
 poem_keystrings = ['poem', 'writer', 'write']
 love_keystrings = ['love', 'heart']
@@ -69,12 +69,22 @@ def bring_to_poem_style(poem):
         if words[i] not in end_of_line_characters:
             poem_right_style += words[i].lower() + ' '
         else:
-            i+=1
+            i += 1
             poem_right_style += '\n' + words[i].capitalize() + ' '
 
     return poem_right_style
 
 
+def determine_text_type(message, keystrings):
+    similarities = []
+    for keystring in keystrings:
+        s = SequenceMatcher(None, message, keystring)
+        similarities.append(s.ratio())
+    return max(similarities)
+
+
+#when using glove
+'''
 def determine_text_type(message):
     sim = (0, 0)
     tokenizer = RegexpTokenizer(r'\w+')
@@ -87,11 +97,4 @@ def determine_text_type(message):
 
 
     return sim
-'''
-    for keystring in keystrings:
-        s = SequenceMatcher(None, message, keystring)
-        similarities.append(s.ratio())
-
-    return max(similarities)
->>>>>>> 4115e2119a8a46e83a7c54cab8976405e6fac119
 '''
