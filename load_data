@@ -1,0 +1,53 @@
+import xlrd
+import numpy as np
+import os.path
+
+def load_data():
+    workbook = xlrd.open_workbook('all_poems.xlsx')
+    sheet = workbook.sheet_by_index(0)
+
+    sheet_array = []
+
+    # The song data is extracted from the excel sheet
+    for row in range(1, sheet.nrows):
+        sheet_row = []
+        if (sheet.cell_value(row, 0) == 'WILLIAM SHAKESPEARE'):
+            for col in range(1, sheet.ncols):
+                sheet_row.append(sheet.cell_value(row, col))
+            sheet_array.append(sheet_row)
+
+    return np.asmatrix(sheet_array)
+
+def put_into_txt(data):
+    mythology_path = 'C:/Users/Daphne/PycharmProjects/CCMLWI_Chatbot/shakespeare/mythology'
+    nature_path = 'C:/Users/Daphne/PycharmProjects/CCMLWI_Chatbot/shakespeare/nature'
+    love_path = 'C:/Users/Daphne/PycharmProjects/CCMLWI_Chatbot/shakespeare/love'
+    mythology_counter = 0
+    nature_counter = 0
+    love_counter = 0
+
+    for row in range(data.shape[0]):
+        if (data[row, 3] == 'Mythology & Folklore'):
+            file_name = os.path.join(mythology_path, 'mythology' + str(mythology_counter) + ".txt")
+            mythology_file = open(file_name, 'w')
+            mythology_file.write(data[row, 0])
+            mythology_file.close()
+            mythology_counter+=1
+        elif (data[row, 3] == 'Nature'):
+            file_name = os.path.join(nature_path, 'nature' + str(nature_counter) + ".txt")
+            nature_file = open(file_name, 'w')
+            nature_file.write(data[row, 0])
+            nature_file.close()
+            nature_counter += 1
+        elif (data[row, 3] == 'Love'):
+            file_name = os.path.join(love_path, 'love' + str(love_counter) + ".txt")
+            love_file = open(file_name, 'w')
+            love_file.write(data[row, 0])
+            love_file.close()
+            love_counter += 1
+
+
+
+
+data = load_data()
+put_into_txt(data)
