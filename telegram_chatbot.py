@@ -2,10 +2,9 @@ import json
 import requests
 import time
 import urllib
-#import markov
 import telepot
 from textblob import TextBlob
-import telegram_send
+
 
 import chatbot_config
 from util import all_keystrings, determine_text_type, calc_part_of_day, response_howre_you, generate_poem, bring_to_poem_style
@@ -25,11 +24,6 @@ def get_url(url):
     response = requests.get(url)
     content = response.content.decode("utf8")
     return content
-
-def get_image_url(url):
-    response = requests.get(url)
-    content = response.content
-    return response
 
 def get_json_from_url(url):
     content = get_url(url)
@@ -101,7 +95,7 @@ def process_text(update):
             message = response_howre_you(part_of_day)
             send_message(message, chat)
             time.sleep(2)
-            send_message("Or to answer the question thou askest: I'm doing most wondrous", chat)
+            send_message("Or to answer the question thou askest: I'm doing most wondrous on this lovely " + part_of_day, chat)
 
         # the send message was a help request
         elif max_similarity_index == 2:

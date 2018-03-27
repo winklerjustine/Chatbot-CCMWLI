@@ -83,18 +83,3 @@ def determine_text_type(message, keystrings):
     return max(similarities)
 
 
-#when using glove
-'''
-def determine_text_type(message):
-    sim = (0, 0)
-    tokenizer = RegexpTokenizer(r'\w+')
-    message_list = tokenizer.tokenize(message.lower())
-    for idx, keystring in enumerate(all_keystrings):
-        new_sim = calc_similarity(keystring, message_list)
-        if new_sim > sim[0]:
-            sim = (new_sim, idx)
-        print(" similarity: " + str(sim[0]) + " " + str(sim[1]))
-
-
-    return sim
-'''
