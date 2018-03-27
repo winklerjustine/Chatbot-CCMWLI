@@ -154,9 +154,8 @@ def process_text(update):
             # sentiment_analysis is set to true
             sentiment_analysis = True
 
-        # als heel kort berichtje gestuurd wordt (en dat berichtje ook niet echt op 'hi' ofzo lijkt) gaat Shakespeare van onderwerp veranderen
-        elif len(text) < 4:
-            send_message("What do you want to talk about?", chat)
+        elif max_similarity_index == 7:
+            send_photo(update)
 
     # If the send message is not really similar to any of the message-types the bot asks the chat-partner for help
     else:
@@ -176,7 +175,7 @@ def process_sentiment(update):
     if polarity < -0.2:
         send_message("Alack, I tried so hard to maketh a sonnet worthy of thee. Mea culpa thee did not liketh it. Maybe I "
                      "can writeth the a new poem? Does thee wanteth to hear about love, nature or mythology?", chat)
-    elif polarity > -0.2 and polarity < 0.2:
+    elif polarity > -0.2 and polarity < 0.4:
         send_message("Ah suspicion always haunts the guilty mind, I am not sure whether it is true what thy sayest about my"
                      "poem. Maybe I can writeth thee a new poem? Does thee wanteth to hear about love, nature or mythology?", chat)
     else:

@@ -25,9 +25,9 @@ poem_keystrings = ['poem', 'writer', 'write']
 love_keystrings = ['love', 'heart']
 nature_keystrings = ['nature', 'tree', 'flower']
 mythology_keystrings = ['mythology']
+meme_keystrings = ['picture', 'image', 'meme', 'funny']
 
-
-all_keystrings = [greeting_keystrings, howreyou_keystrings, help_keystrings, poem_keystrings, love_keystrings, nature_keystrings, mythology_keystrings]
+all_keystrings = [greeting_keystrings, howreyou_keystrings, help_keystrings, poem_keystrings, love_keystrings, nature_keystrings, mythology_keystrings, meme_keystrings]
 
 
 def calc_part_of_day():
@@ -53,7 +53,6 @@ def generate_poem(subject):
     m = markov.Markov(order=1)
     root = "./shakespeare/"
     path = os.path.join(root, subject)
-    print("HEREEEEEE")
     m.walk_directory(path)
     poem = m.generate_output(max_words=100)
     return poem
