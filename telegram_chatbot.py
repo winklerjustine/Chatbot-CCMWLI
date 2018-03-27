@@ -4,6 +4,7 @@ import time
 import urllib
 import telepot
 from textblob import TextBlob
+import random
 
 
 import chatbot_config
@@ -12,6 +13,7 @@ from util import all_keystrings, determine_text_type, calc_part_of_day, response
 
 TOKEN = chatbot_config.token()
 URL = "https://api.telegram.org/bot{}/".format(TOKEN)
+#tb = telepot.Bot(TOKEN)
 
 sentiment_analysis = False
 
@@ -60,9 +62,12 @@ def send_message(text, chat_id):
     get_url(url)
 
 # Still in progress, can be ignored
-def send_photo(chat_id):
+def send_photo(update):
     tb = telepot.Bot(TOKEN)
-    img = open('meme.jpg', 'rb')
+    chat_id = update['message']['chat']['id']
+    random_number = random.randint(1, 22)
+    picture_name = 'C:/Users/Daphne/PycharmProjects/Chatbot Franka & Daphne/Images/' + str(random_number) + '.jpg'
+    img = open(picture_name, 'rb')
     tb.sendPhoto(chat_id, img)
     img.close()
 
@@ -112,7 +117,7 @@ def process_text(update):
             string_message = ''.join(poem)
             right_style = bring_to_poem_style(string_message)
             send_message("Ah, I feel so very much inspired! I hope thee likest my poem about love", chat)
-            time.sleep(3)
+            time.sleep(6)
             send_message(right_style, chat)
             time.sleep(3)
             send_message("May I ask thee, my friend. Did you enjoyeth the poem?", chat)
@@ -126,7 +131,7 @@ def process_text(update):
             string_message = ''.join(poem)
             right_style = bring_to_poem_style(string_message)
             send_message("Inspiration has striken me like thunder. Enjoyest this poem about the beauty of nature!", chat)
-            time.sleep(3)
+            time.sleep(6)
             send_message(right_style, chat)
             time.sleep(3)
             send_message("May I ask thee, my friend. Did you enjoyeth the poem?", chat)
@@ -140,12 +145,11 @@ def process_text(update):
             string_message = ''.join(poem)
             right_style = bring_to_poem_style(string_message)
             send_message("Greek gods, the most wondrous fairytale creatures... Let thy be amused about this poem on mythology", chat)
-            time.sleep(3)
+            time.sleep(6)
             send_message(right_style, chat)
             time.sleep(3)
-            send_message("May I ask thee, my friend. Did you enjoyeth the poem?", chat)
             #mss een boolean 'start_sentiment_analysis' aanmaken, zodat hij
-            send_message("May I ask thee, my friend. Did you enjoyeth the poem?")
+            send_message("May I ask thee, my friend. Did you enjoyeth the poem?", chat)
             # After this message the bot has to run a sentiment analysis on the user's input. Therefore the variable
             # sentiment_analysis is set to true
             sentiment_analysis = True
@@ -158,12 +162,6 @@ def process_text(update):
     else:
         send_message("Alack, I do not understand what it is thy is saying " + first_name + ". I cry you mercy,  can thou say that again", chat)
 
-# If the bot receives a sticker it will send an appropriate text back
-# TODO: Enable the bot to send stickers/images back
-def process_sticker(update):
-    chat = update['message']['chat']['id']
-    send_photo(chat)
-    send_message("That's a nice sticker", chat)
 
 # This function is used once the bot has generated a poem and asks its chat-partner for his/her opinion about the poem.
 def process_sentiment(update):
@@ -210,7 +208,7 @@ def main():
                 # If the chat-partner has send a sticker, the bot will use the process_sticker function to respond
                 # appropriately
                 elif 'sticker' in update['message']:
-                    process_sticker(update)
+                    send_photo(update)
                 #print(update['message']['sticker'])
                 #print(update)
         time.sleep(0.5)

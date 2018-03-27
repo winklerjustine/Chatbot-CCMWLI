@@ -1,8 +1,7 @@
-import sys
 import collections
 import random
 import os
-from textblob import TextBlob
+
 
 
 nonword = "\n"
@@ -23,6 +22,7 @@ class Markov():
         self.table[tuple(self.seen)].append(nonword)
 
     def generate_output(self, max_words=100):
+        print("In generate_output!!!!")
         self.seen.extend([nonword] * self.order)
         for i in range(max_words):
             word = random.choice(self.table[tuple(self.seen)])
@@ -45,8 +45,5 @@ class Markov():
 #m.walk_directory('./shakespeare/love')
 #m.generate_output(max_words=100)
 
-blob = TextBlob('Terrible')
-print(blob.sentiment[1])
-print(blob.sentiment[0])
 
 

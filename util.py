@@ -2,8 +2,6 @@ from difflib import SequenceMatcher
 import datetime
 import markov
 import os
-import nltk
-#from word_to_vec import calc_similarity
 from nltk.tokenize import word_tokenize, RegexpTokenizer
 
 morning_message = 'Full many a glorious morning have I seen, \n ' \
@@ -55,6 +53,7 @@ def generate_poem(subject):
     m = markov.Markov(order=1)
     root = "./shakespeare/"
     path = os.path.join(root, subject)
+    print("HEREEEEEE")
     m.walk_directory(path)
     poem = m.generate_output(max_words=100)
     return poem
