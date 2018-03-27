@@ -70,7 +70,7 @@ def bring_to_poem_style(poem):
         else:
             i += 1
             poem_right_style += '\n' + words[i].capitalize() + ' '
-
+    print(poem_right_style)
     return poem_right_style
 
 

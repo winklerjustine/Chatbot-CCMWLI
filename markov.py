@@ -25,13 +25,13 @@ class Markov():
         print("In generate_output!!!!")
         self.seen.extend([nonword] * self.order)
         for i in range(max_words):
+            print("Iep")
             word = random.choice(self.table[tuple(self.seen)])
-            if word == nonword:
-                exit()
             #print(word)
             self.poem.append(word)
             self.seen.append(word)
             poem = ' '.join(self.poem)
+        print(poem)
         return poem
 
     def walk_directory(self, root_dir):
