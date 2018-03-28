@@ -19,9 +19,9 @@ def load_data():
     return np.asmatrix(sheet_array)
 
 def put_into_txt(data):
-    mythology_path = 'C:/Users/Daphne/PycharmProjects/Chatbot Franka & Daphne/shakespeare/mythology'
-    nature_path = 'C:/Users/Daphne/PycharmProjects/Chatbot Franka & Daphne/shakespeare/nature'
-    love_path = 'C:/Users/Daphne/PycharmProjects/Chatbot Franka & Daphne/shakespeare/love'
+    mythology_path = 'shakespeare/mythology'
+    nature_path = 'shakespeare/nature'
+    love_path = 'shakespeare/love'
     mythology_counter = 0
     nature_counter = 0
     love_counter = 0

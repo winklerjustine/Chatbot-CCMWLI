@@ -27,6 +27,7 @@ nature_keystrings = ['nature', 'tree', 'flower']
 mythology_keystrings = ['mythology']
 meme_keystrings = ['picture', 'image', 'meme', 'funny']
 
+
 all_keystrings = [greeting_keystrings, howreyou_keystrings, help_keystrings, poem_keystrings, love_keystrings, nature_keystrings, mythology_keystrings, meme_keystrings]
 
 
@@ -64,10 +65,11 @@ def bring_to_poem_style(poem):
     poem_right_style = words[0] + ' '
 
     for i in range(1, len(words) - 1):
+        print(words[i])
         if words[i] not in end_of_line_characters:
             poem_right_style += words[i].lower() + ' '
         else:
-            i += 1
+            i+=1
             poem_right_style += '\n' + words[i].capitalize() + ' '
     print(poem_right_style)
     return poem_right_style
@@ -79,5 +81,4 @@ def determine_text_type(message, keystrings):
         s = SequenceMatcher(None, message, keystring)
         similarities.append(s.ratio())
     return max(similarities)
-
 

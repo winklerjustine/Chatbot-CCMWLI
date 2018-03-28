@@ -66,7 +66,7 @@ def send_photo(update):
     tb = telepot.Bot(TOKEN)
     chat_id = update['message']['chat']['id']
     random_number = random.randint(1, 22)
-    picture_name = 'C:/Users/Daphne/PycharmProjects/Chatbot Franka & Daphne/Images/' + str(random_number) + '.jpg'
+    picture_name = 'Images/' + str(random_number) + '.jpg'
     img = open(picture_name, 'rb')
     tb.sendPhoto(chat_id, img)
     img.close()
@@ -83,8 +83,8 @@ def process_text(update):
 
     first_name = update['message']['from']['first_name']
 
-    #similarity = determine_text_type(text) #when using glove
     text_type_similarities = [determine_text_type(text, keystrings) for keystrings in all_keystrings]
+
     max_similarity = max(text_type_similarities)
     max_similarity_index = text_type_similarities.index(max(text_type_similarities))
     global sentiment_analysis
@@ -168,7 +168,6 @@ def process_sentiment(update):
     chat = update['message']['chat']['id']
 
     blob = TextBlob(text)
-    subjectivity = blob.sentiment[1]
     polarity = blob.sentiment[0]
 
 
