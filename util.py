@@ -115,7 +115,6 @@ def bring_to_poem_style(poem):
 def determine_text_type(message, keystrings):
     similarities = []
     for keystring in keystrings:
-        print(keystring)
         s = SequenceMatcher(None, message, keystring)
         similarities.append(s.ratio())
     return max(similarities)
