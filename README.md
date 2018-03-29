@@ -108,7 +108,9 @@ We tried to use glove to analyze the messages of the user, in order to give a co
 
 ## Authors
 
-* **Daphne Lenders** - *tasks*
-* **Justine Winkler** - *tasks*
-* **Franka Buytenhuijs** - *tasks*
+* **All** - *Work on basic chatbot and find memes*
+* **Daphne Lenders** - *Work on sentiment analysis and loading the dataset*
+* **Justine Winkler** - *Work on sonnetizer and rime scheme*
+* **Franka Buytenhuijs** - *Work on markov chains en glove*
+
 
