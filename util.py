@@ -4,6 +4,12 @@ import markov
 import os
 from nltk.tokenize import word_tokenize
 
+"""
+The util class contains a number of longer, predefined messages the bot can send. Next to that it contains helping-functions
+often used by the bot, e.g. to determine the part of day (used to personalize different messages), to determine the type of user
+input etc.
+"""
+
 help_message = 'Ah, I see. Thee needeth my holp! Thither art a number of things I can do: \n\n' \
                'Thy can have some casual small talk with me, by giving me your greetings and asking how I ' \
                'art doing. If thy want to heareth a poem, thee can simply command me to do so and I shall try ' \
@@ -56,7 +62,7 @@ goodbye_keystrings = ['farewell', 'goodbye', 'later','bye', 'doei']
 
 all_keystrings = [greeting_keystrings, howreyou_keystrings, help_keystrings, poem_keystrings, love_keystrings, nature_keystrings, mythology_keystrings, meme_keystrings, goodbye_keystrings]
 
-
+# This function calculates what part of the day it is (morning, afternoon or night)
 def calc_part_of_day():
     now = datetime.datetime.now()
     hour = now.hour
@@ -68,6 +74,7 @@ def calc_part_of_day():
     else:
         return "night"
 
+# This function determines which message should be send, when given a certain part of the day.
 def response_howre_you(part_of_day):
     if (part_of_day == "morning"):
         return morning_message
@@ -76,6 +83,7 @@ def response_howre_you(part_of_day):
     else:
         return night_message
 
+# The Markov class is called to generate a poem of maximal 100 words, about a given subject
 def generate_poem(subject):
     m = markov.Markov(order=1)
     root = "./shakespeare/"
@@ -84,7 +92,8 @@ def generate_poem(subject):
     poem = m.generate_output(max_words=100)
     return poem
 
-#
+# This function is used to make the generated poem somewhat more readable: After every end of line character a
+# newline is added such that the lines aren't too long
 def bring_to_poem_style(poem):
     end_of_line_characters = [',', '.', '!', '?', ':', ';']
     end_of_line_character = False
@@ -101,7 +110,8 @@ def bring_to_poem_style(poem):
             end_of_line_character = False
     return poem_right_style
 
-
+# This function goes through all the keystrings of a keystring-vector and calculates the similarity of each keystring
+# with the message (as send by the user). The highest similarity-score is returned
 def determine_text_type(message, keystrings):
     similarities = []
     for keystring in keystrings:

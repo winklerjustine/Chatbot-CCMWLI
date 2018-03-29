@@ -215,9 +215,3 @@ def main():
 if __name__ == '__main__':
     main()
 
-
-'''
-Ideas:
-- determine text type verbeteren!! (hij is nu nogal dom)
-- mss als Shakespeare het onderwerp niet herkent een random ander gedicht geven
-'''
