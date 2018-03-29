@@ -8,7 +8,7 @@ import random
 
 
 import chatbot_config
-from util import all_keystrings, determine_text_type, calc_part_of_day, response_howre_you, generate_poem, bring_to_poem_style
+from util import farwell_message, help_message, all_keystrings, determine_text_type, calc_part_of_day, response_howre_you, generate_poem, bring_to_poem_style
 
 
 TOKEN = chatbot_config.token()
@@ -82,17 +82,18 @@ def process_text(update):
     chat = update['message']['chat']['id']
 
     first_name = update['message']['from']['first_name']
-
+    print(text)
     text_type_similarities = [determine_text_type(text, keystrings) for keystrings in all_keystrings]
-
+    print(text_type_similarities)
     max_similarity = max(text_type_similarities)
+    print(max_similarity)
     max_similarity_index = text_type_similarities.index(max(text_type_similarities))
     global sentiment_analysis
 
     if max_similarity > 0.3:
         #The send message was a greeting
         if max_similarity_index == 0:
-            send_message("Good day to thee " + first_name + "! How dost thou, my friend? ", chat)
+            send_message("Good day to thee " + first_name + "! How dost thou, my friend?", chat)
 
         # the send message was a how are you text
         elif max_similarity_index == 1:
@@ -104,7 +105,7 @@ def process_text(update):
 
         # the send message was a help request
         elif max_similarity_index == 2:
-            send_message("I will help you", chat) #nog veranderen
+            send_message(help_message, chat) #nog veranderen
 
         # the send message was a poem-request
         elif max_similarity_index == 3:
@@ -157,6 +158,8 @@ def process_text(update):
         elif max_similarity_index == 7:
             send_photo(update)
 
+        elif max_similarity_index == 8:
+            send_message(farwell_message, chat)
     # If the send message is not really similar to any of the message-types the bot asks the chat-partner for help
     else:
         send_message("Alack, I do not understand what it is thy is saying " + first_name + ". I cry you mercy,  can thou say that again", chat)
