@@ -1,7 +1,8 @@
 # Chatbot-CCMWLI
-Our chatbot is a Shakespearian PoetryBot. It uses a database of Shakespeare poems to about love, nature and mythology to create poems on it self. This is done using Markov Chains. Thereby, it can send funny Shakespeare memes to make you feel better. 
+Our chatbot is a Shakespearian PoetryBot. It uses a database of Shakespeare poems to about love, nature and mythology to create poems on it self. This is done using Markov Chains. Next to that it can send funny Shakespeare memes to make you feel better. To have a conversation with the Chatbot the Python code should be run and a message should be sent to the bot. The bot can be found on Telegram by looking for "@WilliamShakeybot".
 
-A conversation can be started with some casual small talk, by saying a greeting or asking how the PoetryBot is doing. After this, you can ask the Bot to make you a poem. It will ask you about what topic you want to hear a poem and generate one for you. PoetryBot will ask you to give your honest opinion about the poem he wrote, and can if you want to generate another one. 
+A conversation can be started with some casual small talk, by saying a greeting or asking how the PoetryBot is doing. We tried to personalize the bot by letting it cooperate information about the users first-name and the time a message is send in the conversation. Next to that we wanted to give the bot some 'character' by letting it talk in a Shakespearian language all the time. 
+After some casual small-talk you can ask the bot to generate you a poem. It will ask you about what topic you want to hear a poem and generate one for you. PoetryBot will ask you to give your honest opinion about the poem he wrote. A sentiment analysis is conducted on this opinion, so that the bot can respond appropriately. 
 
 You can also send the bot stickers and images, to which it will respond with a funny Shakespeare meme. If you do not want to send the bot a sticker you can also just ask him for a meme. 
 
@@ -104,7 +105,7 @@ If you are done talking to PoetryBot, just end the conversation by saying goodby
     In sleep a king, but waking no such matter."
 
 ## Things we tried that did not work
-We tried to use glove to analyze the messages of the user, in order to give a correct answer to the bot. However, this took too much computerpower and, as a consequence, the bot became too slow using glove. 
+We tried to use glove to analyze messages of users, so that the bot can respond appropriately to these messages. An advantage of using glove would be, that the bot would be enabled to respond not only to given keywords (e.g. 'help') but also to words that are (according to the word2vec model) similar to those keywords (e.g. 'assistance', 'rescue', 'support'). However, this took too much computerpower and, as a consequence, the bot became too slow using glove. 
 
 ## Authors
 
