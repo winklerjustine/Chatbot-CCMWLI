@@ -8,7 +8,7 @@ def load_data():
 
     sheet_array = []
 
-    # The song data is extracted from the excel sheet
+    # The poems are extracted from the sheet
     for row in range(1, sheet.nrows):
         sheet_row = []
         if (sheet.cell_value(row, 0) == 'WILLIAM SHAKESPEARE'):
@@ -18,6 +18,7 @@ def load_data():
 
     return np.asmatrix(sheet_array)
 
+# The information given by the dataset (about the topic of the poem) is used to put poems into seperate 'love', 'nature' or 'mythology' .txt files
 def put_into_txt(data):
     mythology_path = 'shakespeare/mythology'
     nature_path = 'shakespeare/nature'
