@@ -106,12 +106,16 @@ If you are done talking to PoetryBot, just end the conversation by saying goodby
 
 ## Things we tried that did not work
 We tried to use glove to analyze messages of users, so that the bot can respond appropriately to these messages. An advantage of using glove would be, that the bot would be enabled to respond not only to given keywords (e.g. 'help') but also to words that are (according to the word2vec model) similar to those keywords (e.g. 'assistance', 'rescue', 'support'). However, this took too much computerpower and, as a consequence, the bot became too slow using glove. 
+Also, we tried to uze github repositories to create sonnetts, such as sonnetizer. However, since they depended on old versions of nltk (and the corresponding functions were not supported anymore), we could not use them. 
+
+## Future Improvements
+In the future, sentence parsing could be incorporated to 
 
 ## Authors
 
 * **All** - *Work on basic chatbot and find memes*
 * **Daphne Lenders** - *Work on sentiment analysis and loading the dataset*
-* **Justine Winkler** - *Work on sonnetizer and rime scheme*
+* **Justine Winkler** - *Work on (and do research about) sonnett generation*
 * **Franka Buytenhuijs** - *Work on markov chains en glove*
 
 
