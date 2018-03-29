@@ -51,7 +51,7 @@ love_keystrings = ['love', 'heart']
 nature_keystrings = ['nature', 'tree', 'flower']
 mythology_keystrings = ['mythology']
 meme_keystrings = ['picture', 'image', 'meme', 'funny']
-goodbye_keystrings = ['farewell', 'goodbye', 'see you later','bye']
+goodbye_keystrings = ['farewell', 'goodbye', 'later','bye', 'doei']
 
 
 all_keystrings = [greeting_keystrings, howreyou_keystrings, help_keystrings, poem_keystrings, love_keystrings, nature_keystrings, mythology_keystrings, meme_keystrings, goodbye_keystrings]
@@ -87,17 +87,18 @@ def generate_poem(subject):
 #
 def bring_to_poem_style(poem):
     end_of_line_characters = [',', '.', '!', '?', ':', ';']
+    end_of_line_character = False
     words = word_tokenize(poem)
     poem_right_style = words[0] + ' '
 
     for i in range(1, len(words) - 1):
-        print(words[i])
-        if words[i] not in end_of_line_characters:
+        if not end_of_line_character:
             poem_right_style += words[i].lower() + ' '
+            if (words[i] in end_of_line_characters):
+                end_of_line_character = True
         else:
-            i+=1
             poem_right_style += '\n' + words[i].capitalize() + ' '
-    print(poem_right_style)
+            end_of_line_character = False
     return poem_right_style
 
 

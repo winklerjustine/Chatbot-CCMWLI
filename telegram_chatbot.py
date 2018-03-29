@@ -65,7 +65,7 @@ def send_message(text, chat_id):
 def send_photo(update):
     tb = telepot.Bot(TOKEN)
     chat_id = update['message']['chat']['id']
-    random_number = random.randint(1, 22)
+    random_number = random.randint(1, 27)
     picture_name = 'Images/' + str(random_number) + '.jpg'
     img = open(picture_name, 'rb')
     tb.sendPhoto(chat_id, img)
@@ -82,11 +82,8 @@ def process_text(update):
     chat = update['message']['chat']['id']
 
     first_name = update['message']['from']['first_name']
-    print(text)
     text_type_similarities = [determine_text_type(text, keystrings) for keystrings in all_keystrings]
-    print(text_type_similarities)
     max_similarity = max(text_type_similarities)
-    print(max_similarity)
     max_similarity_index = text_type_similarities.index(max(text_type_similarities))
     global sentiment_analysis
 
